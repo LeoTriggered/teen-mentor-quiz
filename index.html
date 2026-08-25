@@ -186,13 +186,21 @@
       line-height: 1.5;
       font-size: 15px;
     }
-    .q-ask {
-      text-align: center;
+    .lab-time {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 16px;
+    }
+    .lab-time span {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      border: 1px solid #bfe6e9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: Overpass, Archivo, sans-serif;
       font-weight: 700;
-      margin: 0 auto 18px;
-      max-width: 560px;
-      font-size: 16px;
-      line-height: 1.4;
+      font-size: 14px;
     }
     .options {
       display: grid;
@@ -321,7 +329,7 @@
         <div class="hero">
           <img class="logo" id="mascotImg" alt="T.E.A.M.S. Coaching" />
           <h1>What would you do?</h1>
-          <p class="lede">All 15 scenarios from the Finding Your Own Voice workbook. Give your first response with a picture block. Green is the Lab’s mentor move. Red means pause, look at the green block, then we go to the next scenario.</p>
+          <p class="lede">All 15 scenarios from the Finding Your Own Voice workbook. Each one shows the Lab video timestamp. Give your first response, then review that part of the video. Green is the mentor move. Red means pause, look at the green block, then we go to the next scenario.</p>
           <button class="btn" id="startBtn" type="button">Start the scenarios</button>
         </div>
       </section>
@@ -329,6 +337,7 @@
       <section id="quiz" class="screen">
         <div class="scene-tag" id="sceneTag"></div>
         <h2 class="q" id="questionTitle"></h2>
+        <div class="lab-time"><span id="labTime"></span></div>
         <p class="scene-body" id="questionBody"></p>
         <p class="q-ask" id="questionAsk"></p>
         <div class="options" id="options"></div>
@@ -393,6 +402,7 @@
     const QUESTIONS = [
       {
         title: "Your Friend Keeps Interrupting You",
+        lab: "11:16–12:06",
         body: "You are trying to explain something important to a close friend, but they keep interrupting and turning the conversation back to themselves. You usually let it go because you do not want to sound rude or needy, but you are starting to feel like your thoughts do not matter.",
         ask: "What could you say so your friend understands what is bothering you without turning it into a fight?",
         why: "Silence can look like agreement. Name the boundary calmly and specifically so they know your thoughts matter. Lab: 11:16–12:06.",
@@ -404,6 +414,7 @@
       },
       {
         title: "Everyone Agrees Except You",
+        lab: "6:52–7:30",
         body: "Your class is discussing a topic, and almost everyone is giving the same opinion. You see it differently, but you are worried that people will judge you or make fun of your answer if you speak.",
         ask: "Would you share your opinion? If you did, how?",
         why: "If you stay quiet every time, your voice never gets practice. Add your view with respect — not as an attack. Lab: 6:52–7:30.",
@@ -415,6 +426,7 @@
       },
       {
         title: "The Joke Is About You Now",
+        lab: "11:16–12:06",
         body: "A group of friends keeps making the same joke about you. At first you laughed along, but it has started to bother you. When you look uncomfortable, someone says, “Relax, we are only joking.”",
         ask: "What would you say or do if you wanted the joke to stop without creating unnecessary drama?",
         why: "If you never say it bothers you, people may assume it is acceptable. Make the limit clear without insulting anyone. Lab: 11:16–12:06.",
@@ -426,6 +438,7 @@
       },
       {
         title: "Someone Else Needs a Voice",
+        lab: "6:08–6:39 and 8:36–9:31",
         body: "You see a student getting mocked in the hallway. They look uncomfortable and are not saying anything back. You know the students making the comments, and you are worried that getting involved could make you their next target.",
         ask: "How could you help without putting yourself in an unsafe situation?",
         why: "Speak up for people who may not speak for themselves — and never put yourself in danger to do it. Help can mean getting an adult, pulling the student away, or reporting it. Lab: 6:08–6:39 and 8:36–9:31.",
@@ -437,6 +450,7 @@
       },
       {
         title: "You Heard Only Half the Story",
+        lab: "8:59–9:20",
         body: "A friend tells you that another student said something cruel about them. You are angry and ready to confront the person, but you were not there and you have only heard one side of what happened.",
         ask: "Would you confront them right away, ask more questions, stay out of it, or choose another response?",
         why: "Speaking on incomplete information can damage trust and credibility. Support your friend, then check the facts before you take sides. Lab: 8:59–9:20.",
@@ -448,6 +462,7 @@
       },
       {
         title: "A Teacher Misunderstands What Happened",
+        lab: "8:20–8:32",
         body: "A teacher believes you were involved in something you did not do. You feel embarrassed and angry, especially because other students are nearby. You want to defend yourself immediately, but you can tell the teacher is frustrated too.",
         ask: "What would you say or do so your side of the story gets heard?",
         why: "You deserve to be acknowledged — and timing and tone decide whether you are actually heard. Speak clearly, but pick a calmer setting if the room is hot. Lab: 8:20–8:32.",
@@ -459,6 +474,7 @@
       },
       {
         title: "Your Stronger Friend Always Decides",
+        lab: "11:16–12:06",
         body: "One person in your friend group has a strong personality and usually decides where everyone goes, what everyone does, and who gets included. You often go along with it because disagreeing feels exhausting, even when you would rather make a different choice.",
         ask: "How would you start expressing your own preferences without trying to control the group yourself?",
         why: "Using your voice sets a boundary so you are not dismissed or taken advantage of. Stay in the group — and show your opinion deserves space. Lab: 11:16–12:06.",
@@ -470,6 +486,7 @@
       },
       {
         title: "A Rumor Is Spreading Fast",
+        lab: "5:03–5:38",
         body: "You hear a rumor about someone you know, and several people are already repeating it. Someone asks you what you have heard because they think you know more. You have no idea whether the story is true.",
         ask: "What would you say when someone asks you to add to the rumor?",
         why: "Do not help spread something you cannot confirm. Refusing to add information is often the stronger use of your voice. Lab: 5:03–5:38.",
@@ -481,6 +498,7 @@
       },
       {
         title: "Your Boss Gives You the Wrong Hours",
+        lab: "11:16–12:06",
         body: "You have a part-time job, and your schedule lists you for a shift you had already told your manager you could not work. You are nervous about bringing it up because you are new and do not want to seem difficult.",
         ask: "How would you approach your manager and explain the problem?",
         why: "Silence can look like agreement. Address it early and professionally so you advocate for yourself and still show responsibility. Lab: 11:16–12:06.",
@@ -492,6 +510,7 @@
       },
       {
         title: "Your Friend Is Making a Risky Choice",
+        lab: "5:03–6:39",
         body: "A close friend tells you they are planning to do something that could get them seriously hurt or in major trouble. They make you promise not to tell anyone because they say they trusted you with the information.",
         ask: "Would you keep the promise, try to handle it yourself, tell a trusted adult, or choose another response?",
         why: "When someone may be hurt, protecting them matters more than keeping a secret. Speak up to a trusted adult. Lab: 5:03–6:39.",
@@ -503,6 +522,7 @@
       },
       {
         title: "You Want to Say No",
+        lab: "11:16–12:06",
         body: "Someone you care about keeps asking you to do something you are uncomfortable with. You have given vague answers because you do not want to disappoint them, but they keep asking because they think you might eventually agree.",
         ask: "What could you say that makes your answer clear without being cruel?",
         why: "People may keep pushing when they have never heard a direct answer. A clear no protects your comfort and values. Lab: 11:16–12:06.",
@@ -514,6 +534,7 @@
       },
       {
         title: "You Have an Idea but Stay Quiet",
+        lab: "6:39–7:30",
         body: "You are working on a group project, and the group is stuck. You have an idea that might solve the problem, but two confident people are doing most of the talking. You are worried your idea might sound stupid.",
         ask: "Would you share your idea? If you did, how would you enter the conversation?",
         why: "You don't need to be certain it is the best idea. If it could help, contribute — that is using your voice. Lab: 6:39–7:30.",
@@ -525,6 +546,7 @@
       },
       {
         title: "Someone Posts About You Online",
+        lab: "9:20–10:24",
         body: "A student posts something about you online that is misleading and embarrassing. Your first instinct is to respond publicly and prove them wrong in front of everyone. Several friends are encouraging you to “go off” in the comments.",
         ask: "Would you respond publicly, contact them privately, save evidence, ask for help, ignore it, or use another approach?",
         why: "Don't jump into public conflict while you are angry. Protect yourself with a calmer plan: save evidence, get help, and choose whether public involvement is actually needed. Lab: 9:20–10:24.",
@@ -536,6 +558,7 @@
       },
       {
         title: "You Made the Mistake",
+        lab: "7:34–8:04",
         body: "You realize that you gave someone incorrect information and it caused a problem for the group. Nobody seems to know that the mistake started with you, and staying quiet would probably keep you from getting blamed.",
         ask: "Would you tell the group what happened? If you did, what would you say?",
         why: "Confessing when you are wrong takes accountability, reduces guilt, and builds trust. Owning it now is courage. Lab: 7:34–8:04.",
@@ -547,6 +570,7 @@
       },
       {
         title: "You Keep Making Yourself Smaller",
+        lab: "0:46–3:19",
         body: "You notice that you often change your opinions, make fun of yourself, stay quiet around confident people, or pretend not to care about things that actually matter to you. You do it because being fully yourself sometimes feels risky.",
         ask: "What would speaking with more confidence look like while still staying respectful and true to who you are?",
         why: "Your thoughts and feelings have value. Teens often mute themselves to feel safe — confidence means contributing without shrinking. Lab: 0:46–3:19.",
@@ -614,6 +638,7 @@
       const item = QUESTIONS[index];
       document.getElementById("sceneTag").textContent = "Scenario " + (index + 1) + " of " + QUESTIONS.length;
       document.getElementById("questionTitle").textContent = item.title;
+      document.getElementById("labTime").textContent = "Finding Your Own Voice  ·  " + item.lab;
       document.getElementById("questionBody").textContent = item.body;
       document.getElementById("questionAsk").textContent = item.ask;
       renderProgress();
@@ -647,15 +672,16 @@
 
       if (picked.ok) {
         score += 1;
-        feedbackEl.textContent = "That's the mentor move. " + item.why;
+        feedbackEl.textContent = "That's the mentor move. " + item.why + " Replay the Lab at " + item.lab + ".";
         feedbackEl.className = "feedback good";
       } else {
-        feedbackEl.textContent = "Not this one — look at the green block. " + item.why;
+        feedbackEl.textContent = "Not this one — look at the green block. " + item.why + " Replay the Lab at " + item.lab + ".";
         feedbackEl.className = "feedback bad";
       }
       scoreLive.textContent = "Score " + score;
       answers.push({
         q: item.title,
+        lab: item.lab,
         pick: picked.t,
         right: item.options[correctIndex].t,
         ok: picked.ok
@@ -695,7 +721,7 @@
       document.getElementById("endMsg").textContent = msg;
       const list = document.getElementById("reviewList");
       list.innerHTML = answers.map((a, i) =>
-        "<li><span class='qtext'>" + (i + 1) + ". " + a.q + "</span>" +
+        "<li><span class='qtext'>" + (i + 1) + ". " + a.q + " <em style='color:#007A82;font-style:normal;font-weight:700'>(" + a.lab + ")</em></span>" +
         (a.ok
           ? "<span class='ok'>Right</span>"
           : "<span class='no'>You picked: " + a.pick + "<br>Mentor move: " + a.right + "</span>") +
