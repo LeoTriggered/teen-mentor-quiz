@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>T.E.A.M.S. Digital Lab Series — Mentor Quiz</title>
+  <title>Finding Your Own Voice — T.E.A.M.S. Digital Lab Series</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Overpass:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -101,8 +101,8 @@
     }
     .blocks {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(15, 1fr);
+      gap: 4px;
       margin-top: 10px;
     }
     .blocks i {
@@ -162,11 +162,37 @@
     }
     .btn:hover { background: var(--accent-deep); }
     .btn:active { transform: translateY(1px); }
+    .scene-tag {
+      text-align: center;
+      color: var(--accent);
+      font-family: Overpass, Archivo, sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
     h2.q {
       font-size: clamp(20px, 3.6vw, 28px);
       text-align: center;
-      margin: 6px 0 22px;
-      line-height: 1.35;
+      margin: 0 0 10px;
+      line-height: 1.25;
+    }
+    .scene-body {
+      color: var(--muted);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 12px;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+    .q-ask {
+      text-align: center;
+      font-weight: 700;
+      margin: 0 auto 18px;
+      max-width: 560px;
+      font-size: 16px;
+      line-height: 1.4;
     }
     .options {
       display: grid;
@@ -279,12 +305,12 @@
           <img id="brandImg" alt="T.E.A.M.S. Coaching logo" />
           Digital Lab Series
         </div>
-        <div class="badge">Ages 13–18</div>
+        <div class="badge">Finding Your Own Voice</div>
       </header>
 
       <div id="progressArea" class="progress-wrap" hidden>
         <div class="progress-meta">
-          <span id="qLabel">Question 1 of 10</span>
+          <span id="qLabel">Scenario 1 of 15</span>
           <span id="scoreLive">Score 0</span>
         </div>
         <div class="bar"><span id="barFill"></span></div>
@@ -294,14 +320,17 @@
       <section id="start" class="screen active">
         <div class="hero">
           <img class="logo" id="mascotImg" alt="T.E.A.M.S. Coaching" />
-          <h1>Purpose. Connection. Direction.</h1>
-          <p class="lede">A T.E.A.M.S. Digital Lab check-in for ages 13–18. Ten real situations. Three picture blocks each. Green is the mentor move. Red is a pause — then we go to the next one.</p>
-          <button class="btn" id="startBtn" type="button">Start the lab</button>
+          <h1>What would you do?</h1>
+          <p class="lede">All 15 scenarios from the Finding Your Own Voice workbook. Give your first response with a picture block. Green is the Lab’s mentor move. Red means pause, look at the green block, then we go to the next scenario.</p>
+          <button class="btn" id="startBtn" type="button">Start the scenarios</button>
         </div>
       </section>
 
       <section id="quiz" class="screen">
-        <h2 class="q" id="questionText"></h2>
+        <div class="scene-tag" id="sceneTag"></div>
+        <h2 class="q" id="questionTitle"></h2>
+        <p class="scene-body" id="questionBody"></p>
+        <p class="q-ask" id="questionAsk"></p>
         <div class="options" id="options"></div>
         <div class="feedback" id="feedback"></div>
       </section>
@@ -309,11 +338,11 @@
       <section id="end" class="screen result">
         <img class="logo" id="trophyImg" alt="T.E.A.M.S. Coaching" />
         <h1 id="endTitle">Your result</h1>
-        <div class="score"><span id="finalScore">0</span>/10</div>
+        <div class="score"><span id="finalScore">0</span>/15</div>
         <div class="stars" id="stars"></div>
         <p class="msg" id="endMsg"></p>
         <div class="review">
-          <h3>Mentor recap</h3>
+          <h3>Scenario recap</h3>
           <ul id="reviewList"></ul>
         </div>
         <button class="btn" id="retryBtn" type="button">Run it again</button>
@@ -363,93 +392,168 @@
 
     const QUESTIONS = [
       {
-        q: "A friend has been quiet for days and keeps saying \"I'm fine.\" What's the strongest mentor move?",
-        why: "Checking in privately, then helping them reach a trusted adult, is how you show up without making them a spectacle.",
+        title: "Your Friend Keeps Interrupting You",
+        body: "You are trying to explain something important to a close friend, but they keep interrupting and turning the conversation back to themselves. You usually let it go because you do not want to sound rude or needy, but you are starting to feel like your thoughts do not matter.",
+        ask: "What could you say so your friend understands what is bothering you without turning it into a fight?",
+        why: "Silence can look like agreement. Name the boundary calmly and specifically so they know your thoughts matter. Lab: 11:16–12:06.",
         options: [
-          { t: "Check in privately. Offer to help them talk to a trusted adult.", img: "checkin", ok: true },
-          { t: "Ignore it so it doesn't get awkward.", img: "ignore", ok: false },
-          { t: "Post about it in the group chat.", img: "groupchat", ok: false }
+          { t: "Say nothing again so you don't sound rude.", img: "silent", ok: false },
+          { t: "Tell them calmly and specifically that you need to finish, and that being cut off makes you feel unheard.", img: "checkin", ok: true },
+          { t: "Snap at them and walk away mid-sentence.", img: "mean", ok: false }
         ]
       },
       {
-        q: "Someone keeps asking you for a photo you are not comfortable sending. What should you do?",
-        why: "No is a complete answer. If they keep pushing, a trusted adult should know. Pressure is not consent.",
+        title: "Everyone Agrees Except You",
+        body: "Your class is discussing a topic, and almost everyone is giving the same opinion. You see it differently, but you are worried that people will judge you or make fun of your answer if you speak.",
+        ask: "Would you share your opinion? If you did, how?",
+        why: "If you stay quiet every time, your voice never gets practice. Add your view with respect — not as an attack. Lab: 6:52–7:30.",
         options: [
-          { t: "Say no clearly. Tell a trusted adult if they keep pushing.", img: "sayno", ok: true },
-          { t: "Send it so they stop asking.", img: "phonephoto", ok: false },
-          { t: "Ghost everyone, including people who actually care.", img: "ghost", ok: false }
+          { t: "Stay quiet every time your view is different.", img: "ignore", ok: false },
+          { t: "Share your point respectfully and stay open to learning more.", img: "mentorhelp", ok: true },
+          { t: "Tell the class everyone else is wrong.", img: "roast", ok: false }
         ]
       },
       {
-        q: "You have a test tomorrow. Friends want a late-night game session. Best plan?",
-        why: "Protect sleep and review the hard parts. You can still hang out if you set a stop time.",
+        title: "The Joke Is About You Now",
+        body: "A group of friends keeps making the same joke about you. At first you laughed along, but it has started to bother you. When you look uncomfortable, someone says, “Relax, we are only joking.”",
+        ask: "What would you say or do if you wanted the joke to stop without creating unnecessary drama?",
+        why: "If you never say it bothers you, people may assume it is acceptable. Make the limit clear without insulting anyone. Lab: 11:16–12:06.",
         options: [
-          { t: "Stay up all night, then cram at 5am.", img: "latenight", ok: false },
-          { t: "Set a stop time, review the hard parts, then sleep.", img: "study", ok: true },
-          { t: "Skip the test and deal with it later.", img: "skiptest", ok: false }
+          { t: "Keep laughing so nobody thinks you are sensitive.", img: "roast", ok: false },
+          { t: "Insult them back so they feel it too.", img: "mean", ok: false },
+          { t: "Tell them clearly the joke is not okay with you, and you need it to stop.", img: "sayno", ok: true }
         ]
       },
       {
-        q: "You see a rumor post about a classmate. What should you do?",
-        why: "Sharing it makes you part of the harm. Silence plus a private check-in is the mentor move.",
+        title: "Someone Else Needs a Voice",
+        body: "You see a student getting mocked in the hallway. They look uncomfortable and are not saying anything back. You know the students making the comments, and you are worried that getting involved could make you their next target.",
+        ask: "How could you help without putting yourself in an unsafe situation?",
+        why: "Speak up for people who may not speak for themselves — and never put yourself in danger to do it. Help can mean getting an adult, pulling the student away, or reporting it. Lab: 6:08–6:39 and 8:36–9:31.",
         options: [
-          { t: "Repost it for the comments.", img: "repost", ok: false },
-          { t: "Don't share it. Check in with them if you know them.", img: "kind", ok: true },
-          { t: "Add a mean comment so you look funny.", img: "mean", ok: false }
+          { t: "Watch and stay silent so you don't become the next target.", img: "ignore", ok: false },
+          { t: "Help in a way that protects them and you: get an adult, interrupt safely, or walk them out of it.", img: "kind", ok: true },
+          { t: "Jump in aggressively and start a fight.", img: "film", ok: false }
         ]
       },
       {
-        q: "People are vaping and someone hands you one. Best response?",
-        why: "You don't owe anyone a hit to belong. A calm no is stronger than a performance.",
+        title: "You Heard Only Half the Story",
+        body: "A friend tells you that another student said something cruel about them. You are angry and ready to confront the person, but you were not there and you have only heard one side of what happened.",
+        ask: "Would you confront them right away, ask more questions, stay out of it, or choose another response?",
+        why: "Speaking on incomplete information can damage trust and credibility. Support your friend, then check the facts before you take sides. Lab: 8:59–9:20.",
         options: [
-          { t: "Decline. You don't owe a performance to fit in.", img: "refuse", ok: true },
-          { t: "Try it so nobody calls you boring.", img: "vape", ok: false },
-          { t: "Film it for socials.", img: "film", ok: false }
+          { t: "Confront the other person immediately based on one side.", img: "sides", ok: false },
+          { t: "Support your friend, ask questions, and check the facts before you speak like you know what happened.", img: "checkin", ok: true },
+          { t: "Repost the story so more people can pile on.", img: "repost", ok: false }
         ]
       },
       {
-        q: "You bombed a quiz. What's the growth-mindset move?",
-        why: "One score is data, not your identity. Ask for help and change the method.",
+        title: "A Teacher Misunderstands What Happened",
+        body: "A teacher believes you were involved in something you did not do. You feel embarrassed and angry, especially because other students are nearby. You want to defend yourself immediately, but you can tell the teacher is frustrated too.",
+        ask: "What would you say or do so your side of the story gets heard?",
+        why: "You deserve to be acknowledged — and timing and tone decide whether you are actually heard. Speak clearly, but pick a calmer setting if the room is hot. Lab: 8:20–8:32.",
         options: [
-          { t: "Decide you're just bad at this subject.", img: "giveup", ok: false },
-          { t: "Cheat next time so the grade recovers.", img: "cheat", ok: false },
-          { t: "Look at what you missed, ask a teacher or mentor, try a new study method.", img: "mentorhelp", ok: true }
+          { t: "Argue loudly in front of the class.", img: "mean", ok: false },
+          { t: "Say nothing and hope it disappears.", img: "silent", ok: false },
+          { t: "Ask to talk privately, stay respectful, and clearly explain what actually happened.", img: "mentorhelp", ok: true }
         ]
       },
       {
-        q: "You got birthday money or a first paycheck. Smart first habit?",
-        why: "Pay yourself first. Saving a slice before you spend is how money stops disappearing.",
+        title: "Your Stronger Friend Always Decides",
+        body: "One person in your friend group has a strong personality and usually decides where everyone goes, what everyone does, and who gets included. You often go along with it because disagreeing feels exhausting, even when you would rather make a different choice.",
+        ask: "How would you start expressing your own preferences without trying to control the group yourself?",
+        why: "Using your voice sets a boundary so you are not dismissed or taken advantage of. Stay in the group — and show your opinion deserves space. Lab: 11:16–12:06.",
         options: [
-          { t: "Save a portion before you spend.", img: "save", ok: true },
-          { t: "Spend it all the same day.", img: "spend", ok: false },
-          { t: "Lend it all to someone you barely know.", img: "lend", ok: false }
+          { t: "Always go along so nobody gets annoyed.", img: "silent", ok: false },
+          { t: "Start sharing your preference calmly: suggest a plan, or say you want a turn choosing.", img: "compromise", ok: true },
+          { t: "Take over and make every decision yourself.", img: "sides", ok: false }
         ]
       },
       {
-        q: "A group chat is roasting someone who isn't there. Best move?",
-        why: "Piling on is easy. Mentors don't build belonging by hurting someone who can't reply.",
+        title: "A Rumor Is Spreading Fast",
+        body: "You hear a rumor about someone you know, and several people are already repeating it. Someone asks you what you have heard because they think you know more. You have no idea whether the story is true.",
+        ask: "What would you say when someone asks you to add to the rumor?",
+        why: "Do not help spread something you cannot confirm. Refusing to add information is often the stronger use of your voice. Lab: 5:03–5:38.",
         options: [
-          { t: "Add a harsher joke so you fit in.", img: "roast", ok: false },
-          { t: "Don't pile on. Change the subject or leave the chat.", img: "walkaway", ok: true },
-          { t: "Screenshot it and send it to more people.", img: "screenshot", ok: false }
+          { t: "Repeat what you heard so you stay in the loop.", img: "screenshot", ok: false },
+          { t: "Add a guess to make the story more interesting.", img: "groupchat", ok: false },
+          { t: "Say you don't know if it's true and you won't spread it.", img: "walkaway", ok: true }
         ]
       },
       {
-        q: "You and a friend want different things this weekend. Healthy conflict looks like:",
-        why: "Say it, hear them, take turns. Silent treatment and side-picking turn a small clash into a war.",
+        title: "Your Boss Gives You the Wrong Hours",
+        body: "You have a part-time job, and your schedule lists you for a shift you had already told your manager you could not work. You are nervous about bringing it up because you are new and do not want to seem difficult.",
+        ask: "How would you approach your manager and explain the problem?",
+        why: "Silence can look like agreement. Address it early and professionally so you advocate for yourself and still show responsibility. Lab: 11:16–12:06.",
         options: [
-          { t: "Silent treatment until they give in.", img: "silent", ok: false },
-          { t: "Make other friends pick a side.", img: "sides", ok: false },
-          { t: "Say how you feel, listen, take turns or find a middle.", img: "compromise", ok: true }
+          { t: "Say nothing, then miss the shift or show up resentful.", img: "giveup", ok: false },
+          { t: "Talk to your manager soon, calmly, and remind them of the hours you already said you could not work.", img: "mentorhelp", ok: true },
+          { t: "Complain about the manager to coworkers instead of speaking to them.", img: "roast", ok: false }
         ]
       },
       {
-        q: "You're on your phone at 1am and can't focus in class. Mentor advice?",
-        why: "Sleep is a performance tool. The phone can charge outside the room.",
+        title: "Your Friend Is Making a Risky Choice",
+        body: "A close friend tells you they are planning to do something that could get them seriously hurt or in major trouble. They make you promise not to tell anyone because they say they trusted you with the information.",
+        ask: "Would you keep the promise, try to handle it yourself, tell a trusted adult, or choose another response?",
+        why: "When someone may be hurt, protecting them matters more than keeping a secret. Speak up to a trusted adult. Lab: 5:03–6:39.",
         options: [
-          { t: "Phone out of the bedroom. Aim for real sleep.", img: "sleep", ok: true },
-          { t: "More caffeine and shorter nights.", img: "caffeine", ok: false },
-          { t: "Scroll until you pass out.", img: "scroll", ok: false }
+          { t: "Keep the secret because you promised, even if they could get hurt.", img: "silent", ok: false },
+          { t: "Tell a trusted adult. Safety comes before the promise.", img: "kind", ok: true },
+          { t: "Post about it so everyone finds out at once.", img: "repost", ok: false }
+        ]
+      },
+      {
+        title: "You Want to Say No",
+        body: "Someone you care about keeps asking you to do something you are uncomfortable with. You have given vague answers because you do not want to disappoint them, but they keep asking because they think you might eventually agree.",
+        ask: "What could you say that makes your answer clear without being cruel?",
+        why: "People may keep pushing when they have never heard a direct answer. A clear no protects your comfort and values. Lab: 11:16–12:06.",
+        options: [
+          { t: "Keep giving vague maybe answers so they don't get upset.", img: "ghost", ok: false },
+          { t: "Say no clearly and kindly, and hold the boundary if they ask again.", img: "sayno", ok: true },
+          { t: "Agree so the asking finally stops.", img: "phonephoto", ok: false }
+        ]
+      },
+      {
+        title: "You Have an Idea but Stay Quiet",
+        body: "You are working on a group project, and the group is stuck. You have an idea that might solve the problem, but two confident people are doing most of the talking. You are worried your idea might sound stupid.",
+        ask: "Would you share your idea? If you did, how would you enter the conversation?",
+        why: "You don't need to be certain it is the best idea. If it could help, contribute — that is using your voice. Lab: 6:39–7:30.",
+        options: [
+          { t: "Stay quiet so you don't risk sounding stupid.", img: "ignore", ok: false },
+          { t: "Enter the conversation and share the idea as something the group can try.", img: "study", ok: true },
+          { t: "Wait until the project fails, then say you had a better idea.", img: "giveup", ok: false }
+        ]
+      },
+      {
+        title: "Someone Posts About You Online",
+        body: "A student posts something about you online that is misleading and embarrassing. Your first instinct is to respond publicly and prove them wrong in front of everyone. Several friends are encouraging you to “go off” in the comments.",
+        ask: "Would you respond publicly, contact them privately, save evidence, ask for help, ignore it, or use another approach?",
+        why: "Don't jump into public conflict while you are angry. Protect yourself with a calmer plan: save evidence, get help, and choose whether public involvement is actually needed. Lab: 9:20–10:24.",
+        options: [
+          { t: "Go off in the comments while you are angry, like your friends want.", img: "mean", ok: false },
+          { t: "Pause. Save the post, tell a trusted adult, and handle it without turning it into a bigger public fight.", img: "kind", ok: true },
+          { t: "Screenshot it and send it to more people so it spreads faster.", img: "screenshot", ok: false }
+        ]
+      },
+      {
+        title: "You Made the Mistake",
+        body: "You realize that you gave someone incorrect information and it caused a problem for the group. Nobody seems to know that the mistake started with you, and staying quiet would probably keep you from getting blamed.",
+        ask: "Would you tell the group what happened? If you did, what would you say?",
+        why: "Confessing when you are wrong takes accountability, reduces guilt, and builds trust. Owning it now is courage. Lab: 7:34–8:04.",
+        options: [
+          { t: "Stay quiet so you don't get blamed.", img: "silent", ok: false },
+          { t: "Tell the group it started with you, own the mistake, and help fix it.", img: "mentorhelp", ok: true },
+          { t: "Let someone else take the hit if they look guilty.", img: "cheat", ok: false }
+        ]
+      },
+      {
+        title: "You Keep Making Yourself Smaller",
+        body: "You notice that you often change your opinions, make fun of yourself, stay quiet around confident people, or pretend not to care about things that actually matter to you. You do it because being fully yourself sometimes feels risky.",
+        ask: "What would speaking with more confidence look like while still staying respectful and true to who you are?",
+        why: "Your thoughts and feelings have value. Teens often mute themselves to feel safe — confidence means contributing without shrinking. Lab: 0:46–3:19.",
+        options: [
+          { t: "Keep shrinking so other people stay comfortable.", img: "ghost", ok: false },
+          { t: "In one real moment, share a true opinion, interest, or need — respectfully, without putting yourself down.", img: "checkin", ok: true },
+          { t: "Talk over everyone so you never feel small again.", img: "sides", ok: false }
         ]
       }
     ];
@@ -491,11 +595,11 @@
     }
 
     function renderProgress() {
-      qLabel.textContent = "Question " + (index + 1) + " of 10";
+      qLabel.textContent = "Scenario " + (index + 1) + " of " + QUESTIONS.length;
       scoreLive.textContent = "Score " + score;
       barFill.style.width = ((index / QUESTIONS.length) * 100) + "%";
       blockRow.innerHTML = "";
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < QUESTIONS.length; i++) {
         const bit = document.createElement("i");
         if (i < index) bit.className = "done";
         else if (i === index) bit.className = "now";
@@ -508,7 +612,10 @@
       feedbackEl.textContent = "";
       feedbackEl.className = "feedback";
       const item = QUESTIONS[index];
-      document.getElementById("questionText").textContent = item.q;
+      document.getElementById("sceneTag").textContent = "Scenario " + (index + 1) + " of " + QUESTIONS.length;
+      document.getElementById("questionTitle").textContent = item.title;
+      document.getElementById("questionBody").textContent = item.body;
+      document.getElementById("questionAsk").textContent = item.ask;
       renderProgress();
       optionsEl.innerHTML = "";
       item.options.forEach((opt, i) => {
@@ -548,7 +655,7 @@
       }
       scoreLive.textContent = "Score " + score;
       answers.push({
-        q: item.q,
+        q: item.title,
         pick: picked.t,
         right: item.options[correctIndex].t,
         ok: picked.ok
@@ -559,7 +666,7 @@
         index += 1;
         if (index >= QUESTIONS.length) finish();
         else renderQuestion();
-      }, 2200);
+      }, 2800);
     }
 
     function finish() {
@@ -568,18 +675,19 @@
       qLabel.textContent = "Finished";
       scoreLive.textContent = "Score " + score;
       blockRow.querySelectorAll("i").forEach((el) => { el.className = "done"; });
+      const total = QUESTIONS.length;
       document.getElementById("finalScore").textContent = score;
-      const stars = Math.round((score / 10) * 5);
+      const stars = Math.round((score / total) * 5);
       document.getElementById("stars").textContent = "★".repeat(stars) + "☆".repeat(5 - stars);
       let title = "Keep practicing.";
-      let msg = "Mentors are made by reps. Run it again and aim for the green block every time.";
-      if (score === 10) {
+      let msg = "Finding your voice takes reps. Run the 15 scenarios again and aim for the green block.";
+      if (score === total) {
         title = "You already think like a mentor.";
-        msg = "Every call was the strong move. That's how you lead yourself and other people.";
-      } else if (score >= 8) {
+        msg = "Every scenario was the Lab’s strong move. That’s how you use your voice with courage and care.";
+      } else if (score >= 12) {
         title = "Strong instincts.";
-        msg = "You get it. Replay the two you missed and they'll stick.";
-      } else if (score >= 5) {
+        msg = "You get it. Replay the ones you missed and they’ll stick before the Lab video.";
+      } else if (score >= 8) {
         title = "Solid start.";
         msg = "More than half right. Read the recap, then run it once more.";
       }
